@@ -25,6 +25,19 @@ A production-oriented blog platform backend built with Node.js, Express, MongoDB
 - Multer
 - express-validator
 
+## API Documentation
+
+The API is fully documented using Swagger/OpenAPI 3.0 specification. You can access the interactive API documentation at:
+
+**Swagger UI**: `http://localhost:1010/api-docs`
+
+The documentation includes:
+- Complete endpoint specifications
+- Request/response schemas
+- Authentication requirements
+- Interactive API testing
+- Schema definitions for all models
+
 ## Project Structure
 
 ```text

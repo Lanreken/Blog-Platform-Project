@@ -1,3 +1,73 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: User ID
+ *         name:
+ *           type: string
+ *           description: User's full name
+ *           minLength: 2
+ *           maxLength: 80
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: User's email address
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           default: user
+ *         bio:
+ *           type: string
+ *           maxLength: 500
+ *           description: User's biography
+ *         avatar:
+ *           type: string
+ *           format: uri
+ *           description: User's avatar image URL
+ *         followers:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of user IDs who follow this user
+ *         following:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of user IDs this user follows
+ *         bookmarks:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of blog IDs bookmarked by this user
+ *         website:
+ *           type: string
+ *           format: uri
+ *           description: User's website URL
+ *         socialLinks:
+ *           type: object
+ *           properties:
+ *             twitter:
+ *               type: string
+ *               format: uri
+ *             linkedin:
+ *               type: string
+ *               format: uri
+ *             github:
+ *               type: string
+ *               format: uri
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(

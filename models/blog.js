@@ -1,3 +1,77 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Blog:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Blog ID
+ *         title:
+ *           type: string
+ *           description: Blog title
+ *           minLength: 6
+ *           maxLength: 180
+ *         slug:
+ *           type: string
+ *           description: URL-friendly slug
+ *         content:
+ *           type: string
+ *           description: Blog content (HTML or Markdown)
+ *           minLength: 50
+ *         excerpt:
+ *           type: string
+ *           description: Short summary of the blog
+ *           maxLength: 320
+ *         categories:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of category names
+ *         tags:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of tag names
+ *         image:
+ *           type: string
+ *           format: uri
+ *           description: Blog cover image URL
+ *         published:
+ *           type: boolean
+ *           default: true
+ *           description: Whether the blog is published
+ *         likes:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Array of user IDs who liked this blog
+ *         views:
+ *           type: integer
+ *           default: 0
+ *           description: Number of views
+ *         readingTime:
+ *           type: integer
+ *           description: Estimated reading time in minutes
+ *         metaTitle:
+ *           type: string
+ *           maxLength: 70
+ *           description: SEO meta title
+ *         metaDescription:
+ *           type: string
+ *           maxLength: 160
+ *           description: SEO meta description
+ *         author:
+ *           $ref: '#/components/schemas/User'
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ */
+
 const mongoose = require("mongoose");
 const slugify = require("../utils/slugify");
 const calculateReadingTime = require("../utils/calculateReadingTime");
