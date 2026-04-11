@@ -1,6 +1,12 @@
 const express = require("express");
 const { body } = require("express-validator");
-const { registerUser, loginUser } = require("../controllers/authController");
+const {
+  registerUser,
+  loginUser,
+  refreshToken,
+  verifyEmail,
+  resendVerificationEmail,
+} = require("../controllers/authController");
 const validate = require("../middleware/validateMiddleware");
 
 const router = express.Router();
@@ -117,6 +123,106 @@ router.post(
     validate,
   ],
   loginUser
+);
+
+/**
+ * @swagger
+ * /api/auth/refresh:
+ *   post:
+ *     summary: Refresh access token
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - refreshToken
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 description: Refresh token issued during login
+ *     responses:
+ *       200:
+ *         description: New access token issued
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 refreshToken:
+ *                   type: string
+ *       400:
+ *         description: Refresh token missing
+ *       401:
+ *         description: Refresh token invalid or expired
+ */
+router.post(
+  "/refresh",
+  [
+    body("refreshToken").notEmpty().withMessage("Refresh token is required"),
+    validate,
+  ],
+  refreshToken
+);
+
+/**
+ * @swagger
+ * /api/auth/verify-email/{token}:
+ *   get:
+ *     summary: Verify a user's email address
+ *     tags: [Authentication]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Email verification token
+ *     responses:
+ *       200:
+ *         description: Email verified successfully
+ *       400:
+ *         description: Invalid or expired verification token
+ */
+router.get("/verify-email/:token", verifyEmail);
+
+/**
+ * @swagger
+ * /api/auth/resend-verification:
+ *   post:
+ *     summary: Resend email verification
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Verification email resent
+ *       400:
+ *         description: Email already verified
+ *       404:
+ *         description: User not found
+ */
+router.post(
+  "/resend-verification",
+  [
+    body("email").isEmail().withMessage("A valid email is required").normalizeEmail(),
+    validate,
+  ],
+  resendVerificationEmail
 );
 
 module.exports = router;

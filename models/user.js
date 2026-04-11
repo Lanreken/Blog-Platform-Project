@@ -100,6 +100,11 @@ const userSchema = new mongoose.Schema(
       linkedin: { type: String, default: "" },
       github: { type: String, default: "" },
     },
+    isEmailVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String, select: false },
+    emailVerificationExpires: { type: Date, select: false },
+    refreshToken: { type: String, select: false },
+    refreshTokenExpires: { type: Date, select: false },
     lastLoginAt: { type: Date },
   },
   {
@@ -108,6 +113,10 @@ const userSchema = new mongoose.Schema(
       virtuals: true,
       transform: (doc, ret) => {
         delete ret.password;
+        delete ret.refreshToken;
+        delete ret.refreshTokenExpires;
+        delete ret.emailVerificationToken;
+        delete ret.emailVerificationExpires;
         delete ret.__v;
         ret.followerCount = ret.followers?.length || 0;
         ret.followingCount = ret.following?.length || 0;
